@@ -3,9 +3,10 @@ const { default: mongoose } = require("mongoose")
 var bodyParser = require("body-parser").json()
 const Plat = require("../database/models/Plat")
 const router = express.Router()
+const auth = require("../middlewares/auth")
 
 //route create
-router.post('/plat', bodyParser, async (req, res) => {
+router.post('/plat', auth ,bodyParser, async (req, res) => {
     const { name, description, price ,image } = req.body
     try {
         if (!name || !description || !price) {

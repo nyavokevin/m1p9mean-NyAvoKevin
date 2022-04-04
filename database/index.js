@@ -9,5 +9,6 @@ db.url = dbconfig.DB_URI
 db.users = require("./models/User")
 db.userType = require('./models/UserType')
 db.plats = require('./models/Plat')
+db.command = require('./models/Command')
 
 module.exports = db

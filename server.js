@@ -26,9 +26,11 @@ app.use(
 const userRouter = require("./routes/userRoute")
 const userTypeRouter = require("./routes/userTypeRoute")
 const platRouter = require("./routes/platRoute")
+const commandRouter = require("./routes/commandRoute")
 app.use("/api",userRouter)
 app.use("/api",userTypeRouter)
 app.use("/api",platRouter)
+app.use("/api",commandRouter)
 app.get('/', async (req, res) => {
     console.log("test get")
 })
