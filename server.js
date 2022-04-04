@@ -33,7 +33,6 @@ app.get('/', async (req, res) => {
     console.log("test get")
 })
 
-console.log(process.env.TOKEN_KEY)
 
 //use mongoose
 const db = require("./database/index")

@@ -40,7 +40,7 @@ router.post('/userType', bodyParser, async (req, res) => {
 
 router.get('/userType', auth,bodyParser, async (req, res) => {
     try {
-        UserType.find({}).exec((err, transaction) => {
+        UserType.find({}).exec((err, transaction) =>    {
             if (err) console.log(err)
             res.json(transaction)
        })
