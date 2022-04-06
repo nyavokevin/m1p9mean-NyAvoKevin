@@ -10,5 +10,6 @@ db.users = require("./models/User")
 db.userType = require('./models/UserType')
 db.plats = require('./models/Plat')
 db.command = require('./models/Command')
+db.restaurants = require('./models/Restaurant')
 
 module.exports = db

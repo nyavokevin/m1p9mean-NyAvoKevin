@@ -11,18 +11,16 @@ const schema = new mongoose.Schema({
         type: String,
         require: true
     },
-    price: {
-        type: SchemaTypes.Double,
+    address: {
+        type:String,
         require: true
     },
-    restaurant: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "userType"
-    },
-    image_url: {
-        type: String,
-        require: false
-    }
+    utilisateurs: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "users"
+        }
+    ]
 }, { timestamps: {} })
 
 schema.method("toJSON", function () {
@@ -31,5 +29,5 @@ schema.method("toJSON", function () {
     return object
 })
 
-const Plat = mongoose.model("plats", schema)
-module.exports = Plat
+const Restaurant = mongoose.model("restaurants", schema)
+module.exports = Restaurant
