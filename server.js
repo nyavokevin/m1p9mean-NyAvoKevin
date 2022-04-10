@@ -33,9 +33,13 @@ app.use("/api",userTypeRouter)
 app.use("/api",platRouter)
 app.use("/api", commandRouter)
 app.use("/api",restaurantRouter)
-app.get('/', async (req, res) => {
-    console.log("test get")
-})
+
+const path = __dirname + '/dist/'
+app.use(express.static(path));
+
+app.get('/', function (req,res) {
+  res.sendFile(path + "index.html");
+});
 
 
 //use mongoose

@@ -8,6 +8,10 @@ const schema = new mongoose.Schema({
         require: true,
         max: [100, "Max length"]
     },
+    email: {
+        type: String,
+        max: [100, "Max length"]
+    },
     login: {
         type: String,
         require: true
@@ -20,11 +24,27 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    address: {
+        type: String
+    },
+    postalcode: {
+        type: String,
+    },
+    country: {
+        type: String
+    },
+    city: {
+      type:String  
+    },
+    restaurant_personel: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "restaurants"
+    },
     role: {
-        type: [{
+        type: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "userType"
-        }]
+        }
     }
     
 }, { timestamps: {} } )

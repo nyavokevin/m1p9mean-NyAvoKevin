@@ -1,5 +1,6 @@
 const { mongoose } = require('mongoose')
 require('mongoose-double')(mongoose);
+autoIncrement = require('mongoose-auto-increment');
 
 var SchemaTypes = mongoose.Schema.Types;
 const schema = new mongoose.Schema({
@@ -17,7 +18,7 @@ const schema = new mongoose.Schema({
     },
     restaurant: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "userType"
+        ref: "restaurants"
     },
     image_url: {
         type: String,
@@ -25,11 +26,19 @@ const schema = new mongoose.Schema({
     }
 }, { timestamps: {} })
 
-schema.method("toJSON", function () {
+autoIncrement.initialize(mongoose.connection)
+schema.plugin(autoIncrement.plugin, {
+  model: 'plats',
+  field: 'plat_id',
+  startAt: 1,
+  incrementBy: 1
+});
+schema.method("toJSON", function () { 
     const { _v, _id, ...object } = this.toObject()
     object.id = _id
     return object
 })
+
 
 const Plat = mongoose.model("plats", schema)
 module.exports = Plat

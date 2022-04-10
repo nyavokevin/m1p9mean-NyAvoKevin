@@ -2,14 +2,15 @@ const express = require("express")
 const { default: mongoose } = require("mongoose")
 var bodyParser = require("body-parser").json()
 const Plat = require("../database/models/Plat")
+const Restaurant = require("../database/models/Restaurant")
 const router = express.Router()
 const auth = require("../middlewares/auth")
 
 //route create
 router.post('/plat', auth ,bodyParser, async (req, res) => {
-    const { name, description, price ,image } = req.body
+    const { name, description, price,restaurant_id ,image } = req.body
     try {
-        if (!name || !description || !price) {
+        if (!name || !description || !price || !restaurant_id) {
             res.status(400).send({ message: "Some fields are required" })
             return
         }
@@ -22,13 +23,26 @@ router.post('/plat', auth ,bodyParser, async (req, res) => {
                 res.status(400).send({message: "The name of this dishes already exist in the database"})
                 return
             } else {
-                const plat_temp = new Plat({
+                // const plat_temp = new Plat({
+                //     name: name,
+                //     description: description,
+                //     price: price,
+                //     restaurant: restaurant_id
+                // })
+                Plat.create({
                     name: name,
                     description: description,
-                    price: price 
+                    price: price,
+                    restaurant: restaurant_id
+                }, (error, doc) => {
+                    if (error) {
+                        console.log(error)
+                        return
+                    }
+                    return res.status(200).json({ message: "saved successfully", plat: doc.toJSON() })
                 })
-                plat_temp.save()
-                return res.status(200).json({ message: "saved successfully", plat: plat_temp })
+                // plat_temp.save()
+                // 
             }
         })
     } catch (err) {
@@ -92,6 +106,51 @@ router.delete('/plat/:id', async (req, res) => {
         Plat.deleteOne({ '_id': mongoose.Types.ObjectId(id) }, (err, tasks) => {
             res.status(200).send({ message: "successfuly deleted" });
         })
+    } catch (err) {
+        res.status(500).json(err)
+        return
+    }
+})
+
+router.get('/plat/new', async (req, res) => {
+    try {
+        Plat.find({}).sort({_id: -1}).limit(6).exec((err, transaction) => {
+            if (err) {
+                res.status(400).send({ message:"Error on the server " })
+                return
+            }
+            res.status(200).json({ plats: transaction})
+        })
+    } catch (err) {
+        res.status(500).json(err)
+        return
+    }
+})
+
+router.get('/plat/restaurant/:id', async (req, res) => {
+    const  restaurant_id  = req.params.id
+    try {
+        if (!restaurant_id) {
+            res.status(400).send({ message: "Restaurant ID is missing" })
+            return
+        }
+        Restaurant.findOne({ 'id': restaurant_id }, (errror, restaurant) => {
+            if (errror) {
+                console.log(errror)
+                res.status(400).send({ message:"Error on the server " })
+                return
+            }
+            console.log(restaurant)
+            Plat.find({'restaurant':restaurant._id }).sort({_id: -1}).limit(3).exec((err, transaction) => {
+                if (err) {
+                    res.status(400).send({ message:"Error on the server " })
+                    return
+                }
+                console.log(transaction)
+                res.status(200).json({ plats: transaction})
+            })
+        })
+       
     } catch (err) {
         res.status(500).json(err)
         return
