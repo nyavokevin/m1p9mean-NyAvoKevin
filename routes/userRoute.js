@@ -82,8 +82,8 @@ router.post('/login', bodyParser, async (req, res) => {
                             expiresIn: "2h"   
                             })
                         user.token = token
-                        console.log(user)
-                        res.status(200).json({ message: "User connected", user: user  })
+                        Object.assign(user, { token: token })
+                        res.status(200).json({ message: "User connected", user: user, token: token  })
                     }
                 })
             }
