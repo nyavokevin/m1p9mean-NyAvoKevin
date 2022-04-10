@@ -17,6 +17,8 @@
     "mongoose": "^6.2.8",
     "mongoose-double": "^0.0.1",
     "nodemailer": "^6.7.3",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "mongoose-auto-increment": "^5.0.1",
+    "mongoose-sequence": "^5.3.1"
   }
 }
